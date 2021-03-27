@@ -3,18 +3,27 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './src/pages/Home';
 import Details from './src/pages/Details';
-import {screens} from './src/routes';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
-const App = () => {
-  const Stack = createStackNavigator();
+const queryClient = new QueryClient();
 
+export type RootStackParamList = {
+  Home: undefined;
+  Details: {playerId: string};
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+const App = (): JSX.Element => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={screens.home.route}>
-        <Stack.Screen name={screens.home.route} component={Home} />
-        <Stack.Screen name={screens.details.route} component={Details} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={'Home'}>
+          <Stack.Screen name={'Home'} component={Home} />
+          <Stack.Screen name={'Details'} component={Details} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 };
 
