@@ -15,7 +15,7 @@ export default function SearchBar({
 }: SearchBarProps): JSX.Element {
   return (
     <Container>
-      <TextInput
+      <InputText
         placeholder={label}
         placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
         autoCorrect={false}
@@ -33,5 +33,8 @@ const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+`;
+
+const InputText = styled.TextInput`
+  padding: 0 16px;
 `;
