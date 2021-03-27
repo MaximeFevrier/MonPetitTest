@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, {useMemo} from 'react';
 import {Player} from '../../types';
 import styled from 'styled-components/native';
+import getPlayerPosition from "../../utils/getPlayerPosition";
 
 type PlayerListItemProps = {
   player: Player;
@@ -16,12 +17,15 @@ export default function PlayerListItem({
     return +id;
   }, [player]);
 
+  const position: string = getPlayerPosition(player.ultraPosition);
+
   return (
     <ListItemContainer
       onPress={() => navigation.navigate('Details', {playerId: playerId})}>
-      <CustomText>{player.lastname}</CustomText>
-      <CustomText>{player.firstname}</CustomText>
-      <CustomText>{player.firstname}</CustomText>
+      <CustomText>
+        {player.lastname} {player.firstname}
+      </CustomText>
+      <CustomText>{position}</CustomText>
     </ListItemContainer>
   );
 }
@@ -29,6 +33,8 @@ export default function PlayerListItem({
 const ListItemContainer = styled.TouchableOpacity`
   flex-direction: row;
   padding: 12px 16px;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const CustomText = styled.Text`
