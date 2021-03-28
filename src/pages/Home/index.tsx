@@ -35,7 +35,7 @@ export default function Home({navigation}: HomeProps): JSX.Element {
 
   const [searchData, searchValue, onChangeSearchText] = useSearchFilter(data);
 
-  const filteredData = useFilteredData(data, searchData, positionData);
+  const filteredData = useFilteredData(searchData, positionData);
 
   useManageKeyboard(pickerIsVisible, setPickerIsVisible);
 

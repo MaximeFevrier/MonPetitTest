@@ -20,13 +20,13 @@ export default function useSearchFilter(
   let onChangeText = useCallback(
     (text: string) => {
       setSearchValue(text);
-      if (text === '') {
+      if (text?.length <= 0) {
         onSearchDataChange(data);
       } else {
         const filteredData =
           data?.filter(player =>
             player.lastname.toLowerCase().includes(text.toLowerCase()),
-          ) ?? data;
+          ) ?? [];
         onSearchDataChange(filteredData);
       }
     },
