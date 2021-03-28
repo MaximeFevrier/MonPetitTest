@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {TextInput} from 'react-native';
 
 export interface SearchBarProps {
   defaultValue: string;
