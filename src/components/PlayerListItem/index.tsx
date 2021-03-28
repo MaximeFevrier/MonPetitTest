@@ -17,11 +17,20 @@ export default function PlayerListItem({
     return +id;
   }, [player]);
 
+  const playerName: string = useMemo(() => {
+    return player?.firstname + ' ' + player?.lastname;
+  }, [player]);
+
   const position: string = getPlayerPosition(player.ultraPosition);
 
   return (
     <ListItemContainer
-      onPress={() => navigation.navigate('Details', {playerId: playerId})}>
+      onPress={() =>
+        navigation.navigate('Details', {
+          playerId: playerId,
+          playerName: playerName,
+        })
+      }>
       <CustomText>
         {player.lastname} {player.firstname}
       </CustomText>

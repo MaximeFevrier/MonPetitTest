@@ -24,13 +24,10 @@ type Route = {
 
 type DetailsProps = {
   route: Route;
-  navigation: DetailsScreenNavigationProp;
+  navigation?: DetailsScreenNavigationProp;
 };
 
-export default function Details({
-  route,
-  navigation,
-}: DetailsProps): JSX.Element {
+export default function Details({route}: DetailsProps): JSX.Element {
   const {playerId} = route.params;
 
   const [

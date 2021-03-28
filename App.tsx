@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 
 export type RootStackParamList = {
   Home: undefined;
-  Details: {playerId: string};
+  Details: {playerId: string; playerName: string};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -19,8 +19,16 @@ const App = (): JSX.Element => {
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={'Home'}>
-          <Stack.Screen name={'Home'} component={Home} />
-          <Stack.Screen name={'Details'} component={Details} />
+          <Stack.Screen
+            name={'Home'}
+            component={Home}
+            options={{title: 'Joueurs'}}
+          />
+          <Stack.Screen
+            name={'Details'}
+            component={Details}
+            options={({route}) => ({title: route.params.playerName})}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </QueryClientProvider>
