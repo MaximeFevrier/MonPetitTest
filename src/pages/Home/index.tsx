@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import {FlatList, Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
@@ -7,12 +7,12 @@ import PlayerListItem from '../../components/PlayerListItem';
 import CenteredLoading from '../../components/CenteredLoading';
 import styled from 'styled-components/native';
 import SearchBar from '../../components/SearchBar';
-import useFilteredData from '../../hooks/useFilteredData';
 import ListHeaderComponent from '../../components/ListHeaderComponent';
 import PickerItem from '../../components/Picker';
-import usePositionPicker from '../../hooks/usePositionPicker';
+import usePositionFilter from '../../hooks/usePositionFilter';
 import usePlayersQuery from '../../hooks/usePlayersQuery';
-import useSearchData from '../../hooks/useSearchData';
+import useSearchFilter from '../../hooks/useSearchFilter';
+import useFilteredData from '../../hooks/useFilteredData';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -22,27 +22,19 @@ type HomeProps = {
 
 export default function Home({navigation}: HomeProps): JSX.Element {
   const {isLoading, error, data} = usePlayersQuery();
-  const [filteredData, setFilteredData] = useState<Player[]>();
-
-  let onDataChange = useCallback((newData: Player[]) => {
-    setFilteredData(newData);
-  }, []);
-
-  useEffect(() => {
-    if (data?.length) {
-      setFilteredData(data);
-    }
-  }, [data]);
 
   const [
+    positionData,
     pickerIsVisible,
     setPickerIsVisible,
     currentPosition,
     onPositionChange,
     pickerItems,
-  ] = usePositionPicker(data, onDataChange);
+  ] = usePositionFilter(data);
 
-  const [searchValue, onChangeText] = useSearchData(data, filteredData, onDataChange);
+  const [searchData, searchValue, onChangeSearchText] = useSearchFilter(data);
+
+  const filteredData = useFilteredData(data, searchData, positionData);
 
   return isLoading ? (
     <CenteredLoading />
@@ -50,14 +42,11 @@ export default function Home({navigation}: HomeProps): JSX.Element {
     <MainContainer>
       <SearchBar
         defaultValue={searchValue}
-        onChangeText={onChangeText}
+        onChangeText={onChangeSearchText}
         label={'Nom du joueur'}
       />
       <SelectPosition onPress={() => setPickerIsVisible(old => !old)}>
-        <Text>
-          {'Postes : ' +
-            (currentPosition?.label ?? 'Veuillez sélectionner un poste')}
-        </Text>
+        <Text>{'Postes : ' + currentPosition?.label}</Text>
       </SelectPosition>
       <FlatList<Player>
         data={filteredData ?? []}
@@ -68,6 +57,7 @@ export default function Home({navigation}: HomeProps): JSX.Element {
       />
       {pickerIsVisible ? (
         <PickerItem
+          closePicker={() => setPickerIsVisible(false)}
           defaultValue={currentPosition}
           onValueChange={onPositionChange}
           pickerItems={pickerItems}
