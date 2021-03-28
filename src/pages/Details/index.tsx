@@ -60,6 +60,17 @@ export default function Details({route}: DetailsProps): JSX.Element {
         <CustomText>{player?.firstname}</CustomText>
         <CustomText>{player?.lastname}</CustomText>
         <CustomText>{player?.club}</CustomText>
+        <StatsContainer>
+          <CustomText>{'Stats : '}</CustomText>
+          <CustomText>
+            {'Percentage starter : ' + player?.stats?.percentageStarter + '%'}
+          </CustomText>
+          <CustomText>{'Sum goals : ' + player?.stats?.sumGoals}</CustomText>
+          <CustomText>{'Avg rate : ' + player?.stats?.avgRate}</CustomText>
+          <CustomText>
+            {'Current championship : ' + player?.stats?.currentChampionship}
+          </CustomText>
+        </StatsContainer>
       </Container>
       {pickerIsVisible ? (
         <PickerItem
@@ -81,6 +92,10 @@ const MainContainer = styled.View`
 const Container = styled.View`
   padding: 12px 16px;
   flex: 1;
+`;
+
+const StatsContainer = styled.View`
+  padding: 24px 0;
 `;
 
 const SelectPosition = styled.TouchableOpacity`
