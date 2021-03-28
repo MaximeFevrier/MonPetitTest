@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList, Keyboard, Platform, Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
 import {Player} from '../../types';
@@ -35,6 +35,17 @@ export default function Home({navigation}: HomeProps): JSX.Element {
   const [searchData, searchValue, onChangeSearchText] = useSearchFilter(data);
 
   const filteredData = useFilteredData(data, searchData, positionData);
+
+  useEffect(() => {
+    if (pickerIsVisible) {
+      Keyboard.dismiss();
+    }
+    const sub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      () => setPickerIsVisible(false),
+    );
+    return () => sub.remove();
+  }, [pickerIsVisible, setPickerIsVisible]);
 
   return isLoading ? (
     <CenteredLoading />
