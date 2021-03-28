@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {FlatList, Keyboard, Platform, Text} from 'react-native';
+import React from 'react';
+import {FlatList, Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
 import {Player} from '../../types';
@@ -13,6 +13,7 @@ import usePositionFilter from '../../hooks/usePositionFilter';
 import usePlayersQuery from '../../hooks/usePlayersQuery';
 import useSearchFilter from '../../hooks/useSearchFilter';
 import useFilteredData from '../../hooks/useFilteredData';
+import useManageKeyboard from '../../hooks/useManageKeyboard';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -36,16 +37,7 @@ export default function Home({navigation}: HomeProps): JSX.Element {
 
   const filteredData = useFilteredData(data, searchData, positionData);
 
-  useEffect(() => {
-    if (pickerIsVisible) {
-      Keyboard.dismiss();
-    }
-    const sub = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-      () => setPickerIsVisible(false),
-    );
-    return () => sub.remove();
-  }, [pickerIsVisible, setPickerIsVisible]);
+  useManageKeyboard(pickerIsVisible, setPickerIsVisible);
 
   return isLoading ? (
     <CenteredLoading />
