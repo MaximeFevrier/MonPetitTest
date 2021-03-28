@@ -43,7 +43,7 @@ export default function usePositionFilter(
         setPositionData(data);
       } else {
         const filteredData = data?.filter(
-          d => d.ultraPosition === currentPosition?.value ?? data,
+          d => d.ultraPosition === currentPosition?.value ?? [],
         );
         setPositionData(filteredData);
       }
