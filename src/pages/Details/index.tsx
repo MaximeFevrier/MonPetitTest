@@ -56,7 +56,9 @@ export default function Details({
     <MainContainer>
       <Container>
         <SelectPosition onPress={() => setPickerIsVisible(old => !old)}>
-          <Text>{'Veuillez sélectionner une saison : ' + currentPosition?.label}</Text>
+          <Text>
+            {'Veuillez sélectionner une saison : ' + currentPosition?.label}
+          </Text>
         </SelectPosition>
         <CustomText>{player?.firstname}</CustomText>
         <CustomText>{player?.lastname}</CustomText>
