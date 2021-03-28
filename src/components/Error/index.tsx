@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import {Text, TextStyle} from 'react-native';
 
 type ErrorProps = {
-  message: string;
+  message?: string;
 };
 
 export default function Error({message}: ErrorProps): JSX.Element {
