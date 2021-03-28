@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {Player} from '../../types';
 import styled from 'styled-components/native';
-import getPlayerPosition from "../../utils/getPlayerPosition";
+import getPlayerPosition from '../../utils/getPlayerPosition';
 
 type PlayerListItemProps = {
   player: Player;
