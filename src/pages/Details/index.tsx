@@ -7,6 +7,7 @@ import useDatePicker from '../../hooks/useDatePicker';
 import {Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
+import Error from '../../components/Error';
 
 type DetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -44,6 +45,10 @@ export default function Details({
     playerId,
     currentPosition?.value,
   );
+
+  if (error) {
+    return <Error message={error?.message} />;
+  }
 
   return isLoading ? (
     <CenteredLoading />

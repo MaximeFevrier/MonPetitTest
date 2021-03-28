@@ -14,6 +14,7 @@ import usePlayersQuery from '../../hooks/usePlayersQuery';
 import useSearchFilter from '../../hooks/useSearchFilter';
 import useFilteredData from '../../hooks/useFilteredData';
 import useManageKeyboard from '../../hooks/useManageKeyboard';
+import Error from '../../components/Error';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -38,6 +39,10 @@ export default function Home({navigation}: HomeProps): JSX.Element {
   const filteredData = useFilteredData(searchData, positionData);
 
   useManageKeyboard(pickerIsVisible, setPickerIsVisible);
+
+  if (error) {
+    return <Error message={error?.message} />;
+  }
 
   return isLoading ? (
     <CenteredLoading />
