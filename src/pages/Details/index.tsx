@@ -1,7 +1,12 @@
 import React from 'react';
+import usePlayerQuery from '../../hooks/usePlayerQuery';
+import styled from 'styled-components/native';
+import CenteredLoading from '../../components/CenteredLoading';
+import PickerItem from '../../components/Picker';
+import useDatePicker from '../../hooks/useDatePicker';
+import {Text} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../App';
-import usePlayerQuery from '../../hooks/usePlayerQuery';
 
 type DetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -27,9 +32,57 @@ export default function Details({
 }: DetailsProps): JSX.Element {
   const {playerId} = route.params;
 
-  const {data, error, isLoading} = usePlayerQuery(playerId, 2018);
+  const [
+    pickerItems,
+    pickerIsVisible,
+    setPickerIsVisible,
+    onPositionChange,
+    currentPosition,
+  ] = useDatePicker();
 
-  console.log(')-)-)))-', data);
+  const {data: player, error, isLoading} = usePlayerQuery(
+    playerId,
+    currentPosition?.value,
+  );
 
-  return <></>;
+  return isLoading ? (
+    <CenteredLoading />
+  ) : (
+    <MainContainer>
+      <Container>
+        <SelectPosition onPress={() => setPickerIsVisible(old => !old)}>
+          <Text>{'Veuillez sélectionner une saison : ' + currentPosition?.label}</Text>
+        </SelectPosition>
+        <CustomText>{player?.firstname}</CustomText>
+        <CustomText>{player?.lastname}</CustomText>
+        <CustomText>{player?.club}</CustomText>
+      </Container>
+      {pickerIsVisible ? (
+        <PickerItem
+          closePicker={() => setPickerIsVisible(false)}
+          defaultValue={currentPosition}
+          onValueChange={onPositionChange}
+          pickerItems={pickerItems}
+        />
+      ) : null}
+    </MainContainer>
+  );
 }
+
+const MainContainer = styled.View`
+  flex: 1;
+  padding: 12px 16px;
+`;
+
+const Container = styled.View`
+  padding: 12px 16px;
+  flex: 1;
+`;
+
+const SelectPosition = styled.TouchableOpacity`
+  padding: 12px 0;
+`;
+
+const CustomText = styled.Text`
+  padding: 6px 0;
+`;
