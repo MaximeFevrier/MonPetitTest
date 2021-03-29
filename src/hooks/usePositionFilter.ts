@@ -37,18 +37,31 @@ export default function usePositionFilter(
   const [pickerIsVisible, setPickerIsVisible] = useState<boolean>(false);
   const [positionData, setPositionData] = useState<Player[]>([]);
 
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      currentPosition?.value === pickerItems[0].value &&
+      data?.length &&
+      !isFiltered
+    ) {
+      setPositionData(data);
+    }
+  }, [currentPosition, data, isFiltered, pickerItems]);
+
   useEffect(() => {
     if (currentPosition && data?.length) {
-      if (currentPosition?.value === pickerItems[0].value) {
-        setPositionData(data);
-      } else {
-        const filteredData = data?.filter(
-          d => d.ultraPosition === currentPosition?.value ?? [],
-        );
+      const filteredData = data?.filter(
+        d => d.ultraPosition === currentPosition?.value ?? [],
+      );
+      if (filteredData?.length) {
+        setIsFiltered(true);
         setPositionData(filteredData);
+      } else {
+        setIsFiltered(false);
       }
     }
-  }, [currentPosition, data, pickerItems]);
+  }, [currentPosition, data]);
 
   let onPositionChange = useCallback((newPosition: PickerItems) => {
     setCurrentPosition(newPosition);
