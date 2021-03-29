@@ -15,6 +15,7 @@ import useSearchFilter from '../../hooks/useSearchFilter';
 import useFilteredData from '../../hooks/useFilteredData';
 import useManageKeyboard from '../../hooks/useManageKeyboard';
 import Error from '../../components/Error';
+import ListEmptyComponent from "../../components/ListEmptyComponent";
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -59,6 +60,7 @@ export default function Home({navigation}: HomeProps): JSX.Element {
       <FlatList<Player>
         data={filteredData ?? []}
         ListHeaderComponent={ListHeaderComponent}
+        ListEmptyComponent={ListEmptyComponent}
         renderItem={({item, index}) => (
           <PlayerListItem key={index} player={item} navigation={navigation} />
         )}
