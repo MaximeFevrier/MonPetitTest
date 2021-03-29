@@ -9,7 +9,7 @@ export default function useFilteredData(
   const [filteredData, setFilteredData] = useState<Player[]>([]);
 
   useEffect(() => {
-    if (searchData?.length && positionData?.length) {
+    if (searchData && positionData) {
       const intersection: Player[] = _.intersection(searchData, positionData);
       setFilteredData(intersection);
     }
