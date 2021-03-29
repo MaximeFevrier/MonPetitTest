@@ -15,7 +15,7 @@ import useSearchFilter from '../../hooks/useSearchFilter';
 import useFilteredData from '../../hooks/useFilteredData';
 import useManageKeyboard from '../../hooks/useManageKeyboard';
 import Error from '../../components/Error';
-import ListEmptyComponent from "../../components/ListEmptyComponent";
+import ListEmptyComponent from '../../components/ListEmptyComponent';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
